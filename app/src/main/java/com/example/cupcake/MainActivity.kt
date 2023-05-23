@@ -48,10 +48,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavType
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.painterResource
-
-
-
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 
 /**
@@ -71,6 +74,7 @@ class MainActivity : ComponentActivity() {
 fun App() {
     val navController = rememberNavController()
     Scaffold(
+        topBar = { TopBar(navController) },  // New top bar
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(paddingValues)) {
@@ -89,6 +93,41 @@ fun App() {
     }
 }
 
+@Composable
+fun TopBar(navController: NavHostController) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            IconButton(onClick = { /* Do something when the button is clicked */ }) {
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Icon 1"
+                )
+            }
+
+            IconButton(onClick = { /* Do something when the button is clicked */ }) {
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Icon 2"
+                )
+            }
+
+            IconButton(onClick = { /* Do something when the button is clicked */ }) {
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Icon 3"
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun LiveScreen() {
@@ -96,27 +135,29 @@ fun LiveScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,  // This will evenly distribute the cards on the screen
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "Live Updates")
+    )  {
+        Text(text = "Live Updates", style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold))
 
         // Team 1 vs Team 2 Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .height(150.dp)  // Adjust the height as per your needs
+                .padding(vertical = 16.dp)  // Increase vertical padding to increase space between cards
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 // Left Team
                 Image(
                     painter = painterResource(id = R.drawable.gsw),
                     contentDescription = "Team 1 Logo"
                 )
-                Text(text = "Score: 2 - 1")
+                Text(text = "Score: 2 - 1", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
 
                 // Right Team
                 Image(
@@ -130,18 +171,20 @@ fun LiveScreen() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .height(150.dp)
+                .padding(vertical = 16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 // Left Team
                 Image(
                     painter = painterResource(id = R.drawable.gsw),
                     contentDescription = "Team 3 Logo"
                 )
-                Text(text = "Score: 3 - 0")
+                Text(text = "Score: 3 - 0", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
 
                 // Right Team
                 Image(
@@ -155,18 +198,20 @@ fun LiveScreen() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .height(150.dp)
+                .padding(vertical = 16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 // Left Team
                 Image(
                     painter = painterResource(id = R.drawable.gsw),
                     contentDescription = "Team 5 Logo"
                 )
-                Text(text = "Score: 1 - 1")
+                Text(text = "Score: 1 - 1", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
 
                 // Right Team
                 Image(
