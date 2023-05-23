@@ -19,6 +19,11 @@ import android.annotation.SuppressLint
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import android.os.Bundle
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -33,6 +38,7 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -41,6 +47,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavType
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+
+
+
+
 
 /**
  * Activity for cupcake order flow.
@@ -80,8 +92,92 @@ fun App() {
 
 @Composable
 fun LiveScreen() {
-    Text(text = "Live Updates", modifier = Modifier.padding(16.dp))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Live Updates")
+
+        // Team 1 vs Team 2 Card
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Left Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 1 Logo"
+                )
+                Text(text = "Score: 2 - 1")
+
+                // Right Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 2 Logo"
+                )
+            }
+        }
+
+        // Team 3 vs Team 4 Card
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Left Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 3 Logo"
+                )
+                Text(text = "Score: 3 - 0")
+
+                // Right Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 4 Logo"
+                )
+            }
+        }
+
+        // Team 5 vs Team 6 Card
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Left Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 5 Logo"
+                )
+                Text(text = "Score: 1 - 1")
+
+                // Right Team
+                Image(
+                    painter = painterResource(id = R.drawable.gsw),
+                    contentDescription = "Team 6 Logo"
+                )
+            }
+        }
+    }
 }
+
 @Composable
 fun FavoriteScreen() {
     Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
