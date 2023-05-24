@@ -1,11 +1,15 @@
 package com.example.cupcake.ui
 
 
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -29,9 +33,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 
+
+
+
 @Composable
 fun SearchScreen(navController: NavHostController = rememberNavController()) {
     var searchText by remember { mutableStateOf("") }
+
+
+
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TextField(
@@ -47,16 +57,25 @@ fun SearchScreen(navController: NavHostController = rememberNavController()) {
         // Replace with your own data source
         val items = DataSource.NBA_teams
 
-        for (item in items) {
-            if (item.contains(searchText, ignoreCase = true) || searchText.isEmpty()) {
-                ListItem(
-                    item = item,
-                    isStarred = remember { mutableStateOf(false) },
-                    onStarClick = { isStarred ->
-                        isStarred.value = !isStarred.value
-                    }
-                )
+        val filteredItems = remember(items, searchText) {
+            if (searchText.isBlank()) {
+                items
+            } else {
+                items.filter { it.contains(searchText, ignoreCase = true) }
             }
+        }
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(filteredItems) { item ->
+                    ListItem(
+                        item = item,
+                        isStarred = remember { mutableStateOf(false) },
+                        onStarClick = { isStarred ->
+                            isStarred.value = !isStarred.value
+                        }
+                    )
+                }
+
         }
     }
 }

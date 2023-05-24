@@ -15,6 +15,7 @@
  */
 package com.example.cupcake
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -47,8 +51,11 @@ import com.example.cupcake.ui.SearchScreen
  * Activity for cupcake order flow.
  */
 
+
 class MainActivity : ComponentActivity() {
 
+    // At the top level of your kotlin file:
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +67,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: OrderViewModel = viewModel()) {
+
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
