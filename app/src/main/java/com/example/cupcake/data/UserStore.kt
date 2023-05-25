@@ -1,26 +1,26 @@
-package com.example.cupcake.data
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import androidx.preference.PreferenceManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-class UserStore(private val context: Context) {
-    companion object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("userToken")
-        private val USER_TOKEN_KEY = stringPreferencesKey("user_token")
+class DataRepository(private val context: Context) {
+    private val STRING_LIST_KEY = "string_list_key"
+
+    fun saveStringList(stringList: List<String>) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        val jsonString = Gson().toJson(stringList)
+        editor.putString(STRING_LIST_KEY, jsonString)
+        editor.apply()
     }
 
-    val getAccessToken: Flow<String> = context.dataStore.data.map { preferences ->
-        preferences[USER_TOKEN_KEY] ?: ""
-    }
-
-    suspend fun saveToken(token: String) {
-        context.dataStore.edit { preferences ->
-            preferences[USER_TOKEN_KEY] = token
+    fun getStringList(): List<String> {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val jsonString = sharedPreferences.getString(STRING_LIST_KEY, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, object : TypeToken<List<String>>() {}.type)
+        } else {
+            emptyList()
         }
     }
 }

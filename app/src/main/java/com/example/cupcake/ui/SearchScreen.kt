@@ -2,6 +2,7 @@ package com.example.cupcake.ui
 
 
 
+import DataRepository
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,8 +38,10 @@ import com.example.cupcake.data.DataSource
 
 
 @Composable
-fun SearchScreen(navController: NavHostController = rememberNavController()) {
+fun SearchScreen(dataRepository: DataRepository,navController: NavHostController = rememberNavController()) {
     var searchText by remember { mutableStateOf("") }
+    var stringList by remember { mutableStateOf(dataRepository.getStringList().toMutableList()) }
+
 
 
 
@@ -69,9 +72,25 @@ fun SearchScreen(navController: NavHostController = rememberNavController()) {
                 items(filteredItems) { item ->
                     ListItem(
                         item = item,
-                        isStarred = remember { mutableStateOf(false) },
+                        isStarred = remember { mutableStateOf(stringList.contains(item)) },
                         onStarClick = { isStarred ->
+
                             isStarred.value = !isStarred.value
+
+
+                            // Modify the list of strings
+                            val modifiedList = stringList.toMutableList()
+                            if (isStarred.value) {
+                                modifiedList.add(item)
+                            } else {
+
+                                modifiedList.remove(item) // Remove the item from the list
+
+                            }
+
+                            // Save the modified list of strings
+                            dataRepository.saveStringList(modifiedList)
+
                         }
                     )
                 }
