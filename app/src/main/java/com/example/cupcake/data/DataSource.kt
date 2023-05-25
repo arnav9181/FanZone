@@ -15,20 +15,37 @@
  */
 package com.example.cupcake.data
 
-import com.example.cupcake.R
-
 object DataSource {
-    val flavors = listOf(
-        R.string.vanilla,
-        R.string.chocolate,
-        R.string.red_velvet,
-        R.string.salted_caramel,
-        R.string.coffee
-    )
-
-    val quantityOptions = listOf(
-        Pair(R.string.one_cupcake, 1),
-        Pair(R.string.six_cupcakes, 6),
-        Pair(R.string.twelve_cupcakes, 12)
+    val NBA_teams = listOf(
+        "Atlanta Hawks",
+        "Boston Celtics",
+        "Brooklyn Nets",
+        "Charlotte Hornets",
+        "Chicago Bulls",
+        "Cleveland Cavaliers",
+        "Dallas Mavericks",
+        "Denver Nuggets",
+        "Detroit Pistons",
+        "Golden State Warriors",
+        "Houston Rockets",
+        "Indiana Pacers",
+        "LA Clippers",
+        "Los Angeles Lakers",
+        "Memphis Grizzlies",
+        "Miami Heat",
+        "Milwaukee Bucks",
+        "Minnesota Timberwolves",
+        "New Orleans Pelicans",
+        "New York Knicks",
+        "Oklahoma City Thunder",
+        "Orlando Magic",
+        "Philadelphia 76ers",
+        "Phoenix Suns",
+        "Portland Trail Blazers",
+        "Sacramento Kings",
+        "San Antonio Spurs",
+        "Toronto Raptors",
+        "Utah Jazz",
+        "Washington Wizards"
     )
 }

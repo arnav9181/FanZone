@@ -1,4 +1,4 @@
-Cupcake app
+FaZone
 =================================
 
 This app contains an order flow for cupcakes with options for quantity, flavor, and pickup date.
