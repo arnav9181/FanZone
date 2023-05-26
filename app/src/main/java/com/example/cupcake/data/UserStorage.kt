@@ -3,7 +3,7 @@ import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class DataRepository(private val context: Context) {
+class UserStorage(private val context: Context) {
     private val FAVORITETEAMS = "FAVORITE"
 
     fun saveStringList(stringList: List<String>) {

@@ -15,7 +15,7 @@
  */
 package com.example.cupcake
 
-import DataRepository
+import UserStorage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -86,11 +86,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: OrderViewModel = viewModel()) {
-    val dataRepository = DataRepository(context = LocalContext.current)
+    val dataRepository = UserStorage(context = LocalContext.current)
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
-        topBar = { TopBar(navController) },  // New top bar
+        //topBar = { TopBar(navController) },  // New top bar
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(paddingValues)) {
@@ -240,7 +240,7 @@ fun LiveScreen() {
 }
 
 @Composable
-fun FavoriteScreen(dataRepository: DataRepository) {
+fun FavoriteScreen(dataRepository: UserStorage) {
 
     val stringList = remember { dataRepository.getStringList() }
     // Display the list of strings

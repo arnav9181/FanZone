@@ -2,7 +2,7 @@ package com.example.cupcake.ui
 
 
 
-import DataRepository
+import UserStorage
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +39,7 @@ import com.example.cupcake.data.DataSource
 
 
 @Composable
-fun SearchScreen(dataRepository: DataRepository,navController: NavHostController = rememberNavController()) {
+fun SearchScreen(dataRepository: UserStorage,navController: NavHostController = rememberNavController()) {
     var searchText by remember { mutableStateOf("") }
     var stringList by remember { mutableStateOf(dataRepository.getStringList().toMutableList()) }
 
