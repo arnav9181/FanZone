@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -42,23 +43,34 @@ fun SearchScreen(dataRepository: DataRepository,navController: NavHostController
     var searchText by remember { mutableStateOf("") }
     var stringList by remember { mutableStateOf(dataRepository.getStringList().toMutableList()) }
 
-
-
-
-
     Column(modifier = Modifier.fillMaxWidth()) {
-        TextField(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            value = searchText,
-            onValueChange = { searchText = it },
-            label = { Text("Search") },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = MaterialTheme.colors.surface
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                modifier = Modifier.weight(1f),
+                value = searchText,
+                onValueChange = { searchText = it },
+                label = { Text("Search MLB Teams") },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = MaterialTheme.colors.surface
+                )
             )
-        )
-
+            Button(
+                onClick = {
+                    val modifiedList = stringList.toMutableList()
+                    modifiedList.clear()
+                    dataRepository.saveStringList(modifiedList)
+                    navController.navigate("Search")
+                },
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text("Clear Favorites")
+            }
+        }
         // Replace with your own data source
-        val items = DataSource.NBA_teams
+        val items = DataSource.MLB_teams
 
         val filteredItems = remember(items, searchText) {
             if (searchText.isBlank()) {

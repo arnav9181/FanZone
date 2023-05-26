@@ -241,10 +241,11 @@ fun LiveScreen() {
 
 @Composable
 fun FavoriteScreen(dataRepository: DataRepository) {
-    Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
+
     val stringList = remember { dataRepository.getStringList() }
     // Display the list of strings
     Column {
+        Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
         for (string in stringList) {
             Text(text = string)
         }
