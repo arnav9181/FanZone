@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package com.example.fanzone.ui
 
 
 
@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.cupcake.data.DataSource
+import com.example.fanzone.data.DataSource
 
 
 

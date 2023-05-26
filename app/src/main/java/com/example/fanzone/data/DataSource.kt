@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake.data
+package com.example.fanzone.data
 
 object DataSource {
     val MLB_teams = listOf(

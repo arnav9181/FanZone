@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake
+package com.example.fanzone
 
 import UserStorage
 import android.os.Bundle
@@ -59,8 +59,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.cupcake.ui.OrderViewModel
-import com.example.cupcake.ui.SearchScreen
+import com.example.fanzone.ui.OrderViewModel
+import com.example.fanzone.ui.SearchScreen
 
 
 /**
