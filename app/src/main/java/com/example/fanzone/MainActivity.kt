@@ -59,6 +59,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fanzone.ui.LiveScreen
 import com.example.fanzone.ui.OrderViewModel
 import com.example.fanzone.ui.SearchScreen
 
@@ -146,7 +147,7 @@ fun TopBar(navController: NavHostController) {
 }
 
 @Composable
-fun LiveScreen() {
+fun LiveScreenOld() {
     Column(
         modifier = Modifier
             .fillMaxSize()
