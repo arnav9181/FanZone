@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake.ui
+package com.example.fanzone.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.cupcake.data.OrderUiState
+import com.example.fanzone.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

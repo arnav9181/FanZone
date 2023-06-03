@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake
+package com.example.fanzone
 
-import android.content.Context
+import UserStorage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,35 +44,37 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.cupcake.ui.OrderViewModel
-import com.example.cupcake.ui.SearchScreen
+import com.example.fanzone.ui.OrderViewModel
+import com.example.fanzone.ui.SearchScreen
 
 
 /**
  * Activity for cupcake order flow.
  */
 
-
+private const val STRING_LIST_KEY = "string_list_key"
 class MainActivity : ComponentActivity() {
 
-    // At the top level of your kotlin file:
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,11 +86,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: OrderViewModel = viewModel()) {
-
+    val dataRepository = UserStorage(context = LocalContext.current)
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
-        topBar = { TopBar(navController) },  // New top bar
+        //topBar = { TopBar(navController) },  // New top bar
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(paddingValues)) {
@@ -97,10 +99,10 @@ fun App(viewModel: OrderViewModel = viewModel()) {
                     LiveScreen()
                 }
                 composable("Favorites") {
-                    FavoriteScreen()
+                    FavoriteScreen(dataRepository)
                 }
                 composable("Search") {
-                    SearchScreen(navController = navController)
+                    SearchScreen(dataRepository,navController = navController)
                 }
             }
         }
@@ -238,8 +240,16 @@ fun LiveScreen() {
 }
 
 @Composable
-fun FavoriteScreen() {
-    Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
+fun FavoriteScreen(dataRepository: UserStorage) {
+
+    val stringList = remember { dataRepository.getStringList() }
+    // Display the list of strings
+    Column {
+        Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
+        for (string in stringList) {
+            Text(text = string)
+        }
+}
 }
 
 

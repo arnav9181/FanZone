@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake.data
+package com.example.fanzone.ui.components
+
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.fanzone.R
 
 /**
- * Data class that represents the current UI state in terms of [quantity], [flavor],
- * [dateOptions], selected pickup [date] and [price]
+ * Composable that displays formatted [price] that will be formatted and displayed on screen
  */
-data class OrderUiState(
-    /** Selected cupcake quantity (1, 6, 12) */
-    val quantity: Int = 0,
-    /** Flavor of the cupcakes in the order (such as "Chocolate", "Vanilla", etc..) */
-    val flavor: String = "",
-    /** Selected date for pickup (such as "Jan 1") */
-    val date: String = "",
-    /** Total price for the order */
-    val price: String = "",
-    /** Available pickup dates for the order*/
-    val pickupOptions: List<String> = listOf()
-)
+@Composable
+fun FormattedPriceLabel(subtotal: String, modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.subtotal_price, subtotal),
+        modifier = modifier
+    )
+}
