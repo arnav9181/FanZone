@@ -32,8 +32,8 @@ fun LiveScreen() {
         } else {
             Text(text = apiResponse)
             val jsonElement = Gson().fromJson(apiResponse, JsonElement::class.java)
-            Text(text = "Your Dog is a "+jsonElement.asJsonObject["status"].asString)
-
+            Text(text = "Status: "+jsonElement.asJsonObject["status"].asString)
+            Text(text = "Your Dog is a "+jsonElement.asJsonObject["message"].asJsonObject["bulldog"].asJsonArray)
         }
     }
 
