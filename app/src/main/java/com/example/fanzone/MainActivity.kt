@@ -59,6 +59,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fanzone.ui.FavScreen
 import com.example.fanzone.ui.LiveScreen
 import com.example.fanzone.ui.OrderViewModel
 import com.example.fanzone.ui.SearchScreen
@@ -100,7 +101,7 @@ fun App(viewModel: OrderViewModel = viewModel()) {
                     LiveScreen()
                 }
                 composable("Favorites") {
-                    FavoriteScreen(dataRepository)
+                    FavScreen()
                 }
                 composable("Search") {
                     SearchScreen(dataRepository,navController = navController)
@@ -147,18 +148,18 @@ fun TopBar(navController: NavHostController) {
 }
 
 
-@Composable
-fun FavoriteScreen(dataRepository: UserStorage) {
-
-    val stringList = remember { dataRepository.getStringList() }
-    // Display the list of strings
-    Column {
-        Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
-        for (string in stringList) {
-            Text(text = string)
-        }
-}
-}
+//@Composable
+//fun FavoriteScreen(dataRepository: UserStorage) {
+//
+//    val stringList = remember { dataRepository.getStringList() }
+//    // Display the list of strings
+//    Column {
+//        Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
+//        for (string in stringList) {
+//            Text(text = string)
+//        }
+//}
+//}
 
 
 
