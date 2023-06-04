@@ -17,10 +17,8 @@ package com.example.fanzone.data
 
 object DataSource {
     val MLB_teams = listOf(
-        "Atlanta Hawks",
         "Atlanta Braves",
         "Arizona Diamondbacks",
-        "Atlanta Braves",
         "Baltimore Orioles",
         "Boston Red Sox",
         "Chicago Cubs",
@@ -50,4 +48,39 @@ object DataSource {
         "Toronto Blue Jays",
         "Washington Nationals"
     )
+
+    val teamAbbreviations:HashMap<String, String> = hashMapOf(
+        "Atlanta Hawks" to "atl",
+        "Atlanta Braves" to "atl",
+        "Arizona Diamondbacks" to "ari",
+        "Baltimore Orioles" to "bal",
+        "Boston Red Sox" to "bos",
+        "Chicago Cubs" to "chc",
+        "Chicago White Sox" to "chw",
+        "Cincinnati Reds" to "cin",
+        "Cleveland Guardians" to "cle",
+        "Colorado Rockies" to "col",
+        "Detroit Tigers" to "det",
+        "Houston Astros" to "hou",
+        "Kansas City Royals" to "kc",
+        "Los Angeles Angels" to "laa",
+        "Los Angeles Dodgers" to "lad",
+        "Miami Marlins" to "mia",
+        "Milwaukee Brewers" to "mil",
+        "Minnesota Twins" to "min",
+        "New York Mets" to "nym",
+        "New York Yankees" to "nyy",
+        "Oakland Athletics" to "oak",
+        "Philadelphia Phillies" to "phi",
+        "Pittsburgh Pirates" to "pit",
+        "San Diego Padres" to "sd",
+        "San Francisco Giants" to "sf",
+        "Seattle Mariners" to "sea",
+        "St. Louis Cardinals" to "stl",
+        "Tampa Bay Rays" to "tb",
+        "Texas Rangers" to "tex",
+        "Toronto Blue Jays" to "tor",
+        "Washington Nationals" to "wsh"
+    )
+
 }

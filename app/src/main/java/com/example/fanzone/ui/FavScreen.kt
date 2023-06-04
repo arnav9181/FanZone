@@ -1,8 +1,14 @@
 package com.example.fanzone.ui
 
+import UserStorage
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -13,45 +19,46 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
+import com.example.fanzone.data.DataSource.teamAbbreviations
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import java.text.SimpleDateFormat
-import java.util.*
-
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 
 @Composable
-fun FavScreen() {
+fun FavScreen(dataRepository: UserStorage) {
     val viewModel: FavScreenViewModel = viewModel()
     val isLoading = viewModel.isLoading.value
     val apiResponse = viewModel.apiResponse.value
-    val favoriteTeams: List<String> = listOf("atl", "nyy", "lad", "ari")
+    //val favoriteTeams: List<String> = listOf("atl", "nyy", "lad", "ari")
+    val stringList = remember { dataRepository.getStringList() }
+    val mappedStrings = stringList.sorted().map { teamName ->
+        teamAbbreviations[teamName] ?: ""
+    }
     val baseUrl = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/"
     val currentIndex = remember { mutableStateOf(0) }
     val favoriteTeamData: MutableMap<String, MutableMap<String, String>> = remember { mutableMapOf() }
 
     LaunchedEffect(Unit) {
-        if (currentIndex.value < favoriteTeams.size) {
-            viewModel.makeApiCall(baseUrl + favoriteTeams[currentIndex.value])
+        if (currentIndex.value < mappedStrings.size) {
+            //val teamAbb=teamAbbreviations[currentIndex.value]
+            viewModel.makeApiCall(baseUrl + mappedStrings[currentIndex.value])
+
         }
+
+
+
     }
 
     val responseJson = Gson().fromJson(
@@ -87,8 +94,8 @@ fun FavScreen() {
 
         favoriteTeamData[jsonElement["abbreviation"].asString.lowercase()] = teamData
         currentIndex.value++
-        if (currentIndex.value < favoriteTeams.size) {
-            viewModel.makeApiCall(baseUrl + favoriteTeams[currentIndex.value])
+        if (currentIndex.value < mappedStrings.size) {
+            viewModel.makeApiCall(baseUrl + mappedStrings[currentIndex.value])
         }
     }
 
@@ -96,7 +103,7 @@ fun FavScreen() {
         if (favoriteTeamData.isEmpty()) {
             Text(text = "Loading...", style = MaterialTheme.typography.h5)
         } else {
-            for (team in favoriteTeams) {
+            for (team in mappedStrings) {
                 if (favoriteTeamData[team] != null) {
                     Card(shape = RoundedCornerShape(10.dp), modifier = Modifier.padding(10.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
