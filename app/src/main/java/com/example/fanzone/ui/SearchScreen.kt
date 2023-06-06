@@ -86,24 +86,23 @@ fun SearchScreen(dataRepository: UserStorage,navController: NavHostController = 
                         item = item,
                         isStarred = remember { mutableStateOf(stringList.contains(item)) },
                         onStarClick = { isStarred ->
-
                             isStarred.value = !isStarred.value
-
 
                             // Modify the list of strings
                             val modifiedList = stringList.toMutableList()
                             if (isStarred.value) {
                                 modifiedList.add(item)
                             } else {
-
                                 modifiedList.remove(item) // Remove the item from the list
-
                             }
 
                             // Save the modified list of strings
                             dataRepository.saveStringList(modifiedList)
 
+                            // Update the state with the updated list
+                            stringList = dataRepository.getStringList().toMutableList()
                         }
+
                     )
                 }
 
