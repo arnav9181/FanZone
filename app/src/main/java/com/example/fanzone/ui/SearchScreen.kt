@@ -102,7 +102,6 @@ fun SearchScreen(dataRepository: UserStorage,navController: NavHostController = 
                             // Update the state with the updated list
                             stringList = dataRepository.getStringList().toMutableList()
                         }
-
                     )
                 }
 
