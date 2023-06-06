@@ -86,7 +86,7 @@ fun App(viewModel: OrderViewModel = viewModel()) {
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(paddingValues)) {
-            NavHost(navController = navController, startDestination = "Search") {
+            NavHost(navController = navController, startDestination = "Favorites") {
                 composable("Live") {
                     LiveScreen()
                 }
