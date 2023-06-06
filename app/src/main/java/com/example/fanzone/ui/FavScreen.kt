@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -111,12 +113,14 @@ fun FavScreen(dataRepository: UserStorage) {
         }
     }
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         if (favoriteTeamData.isEmpty()) {
-            Text(text = "No Favorite Teams Found", style = MaterialTheme.typography.h5)
+            item {
+                Text(text = "No Favorite Teams Found", style = MaterialTheme.typography.h5)
+            }
         } else {
-            for (team in mappedStrings) {
-                if (favoriteTeamData[team] != null) {
+            items(mappedStrings) { team: String ->
+                favoriteTeamData[team]?.let { teamData ->
                     Card(
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.padding(10.dp),
@@ -126,11 +130,11 @@ fun FavScreen(dataRepository: UserStorage) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(16.dp) // Padding around elements inside card
                         ) {
-                            val imageUrl = favoriteTeamData[team]?.get("logoUrl")!!
+                            val imageUrl = teamData["logoUrl"]!!
                             val imagePainter = rememberImagePainter(data = imageUrl)
                             Image(
                                 painter = imagePainter,
-                                contentDescription = "${favoriteTeamData[team]?.get("teamName")!!} Logo",
+                                contentDescription = "${teamData["teamName"]!!} Logo",
                                 modifier = Modifier
                                     .size(100.dp)
                                     .clip(CircleShape)
@@ -138,18 +142,18 @@ fun FavScreen(dataRepository: UserStorage) {
                             Spacer(modifier = Modifier.width(16.dp))
                             Column {
                                 Text(
-                                    text = favoriteTeamData[team]?.get("teamName")!!,
+                                    text = teamData["teamName"]!!,
                                     style = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.secondary) // Increased size, added color
                                 )
                                 Text(
-                                    text = "Overall Record: ${favoriteTeamData[team]?.get("record")}",
+                                    text = "Overall Record: ${teamData["record"]}",
                                     style = MaterialTheme.typography.body1,
                                 )
                                 Text(
-                                    text = "Next Event: ${favoriteTeamData[team]?.get("nextEventDate")}, ${favoriteTeamData[team]?.get("nextEventName")}",
+                                    text = "Next Event: ${teamData["nextEventDate"]}, ${teamData["nextEventName"]}",
                                     style = MaterialTheme.typography.body1
                                 )
-                                val rosterLink = favoriteTeamData[team]?.get("rosterLink")
+                                val rosterLink = teamData["rosterLink"]
                                 if (rosterLink != null) {
                                     Text(
                                         text = "Roster",
