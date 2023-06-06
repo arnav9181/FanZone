@@ -76,17 +76,32 @@ fun FavScreen(dataRepository: UserStorage) {
         val teamData: MutableMap<String, String> = mutableMapOf()
         val jsonElement = responseJson.asJsonObject["team"].asJsonObject
         teamData["teamName"] = jsonElement["displayName"].asString
-        teamData["record"] = jsonElement["record"].asJsonObject["items"].asJsonArray
-            .firstOrNull { it.asJsonObject["description"].asString == "Overall Record" }
-            ?.asJsonObject?.get("summary").toString().replace("\"", "")
 
-        // Extracting next event and short name
+        val recordDataArray = jsonElement["record"].asJsonObject["items"].asJsonArray
+        val overallRecordData = recordDataArray
+            .firstOrNull { it.asJsonObject["description"].asString == "Overall Record" }
+        if (overallRecordData != null) {
+            teamData["record"] = overallRecordData.asJsonObject.get("summary").toString().replace("\"", "")
+            overallRecordData.asJsonObject["stats"].asJsonArray.forEach { statElement ->
+                val statName = statElement.asJsonObject["name"].asString
+                when (statName) {
+                    "leagueWinPercent" -> {
+                        val leagueWinPercent = statElement.asJsonObject["value"].asDouble * 100
+                        teamData["leagueWinPercent"] = String.format("%.4s", leagueWinPercent)
+                    }
+                    "divisionWinPercent" -> {
+                        val divisionWinPercent = statElement.asJsonObject["value"].asDouble * 100
+                        teamData["divisionWinPercent"] = String.format("%.4s", divisionWinPercent)
+                    }                }
+            }
+        }
+
         val nextEventArray = jsonElement["nextEvent"].asJsonArray
         if (nextEventArray.size() > 0) {
             val nextEvent = nextEventArray[0].asJsonObject
             val dateStr = nextEvent["date"].asString
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ENGLISH)
-            inputFormat.timeZone = TimeZone.getTimeZone("UTC") // Make sure to interpret the input as a UTC timestamp
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
             val outputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH)
             val date = inputFormat.parse(dateStr)
             val formattedDateStr = outputFormat.format(date)
@@ -94,11 +109,9 @@ fun FavScreen(dataRepository: UserStorage) {
             teamData["nextEventName"] = nextEvent["shortName"].asString
         }
 
-        // Extracting team logo
         val logoUrl = jsonElement["logos"].asJsonArray[0].asJsonObject["href"].asString
         teamData["logoUrl"] = logoUrl
 
-        // Extracting roster link
         val rosterLink = jsonElement["links"].asJsonArray
             .firstOrNull { it.asJsonObject["rel"].asJsonArray.contains(JsonPrimitive("roster")) }
             ?.asJsonObject?.get("href")?.asString
@@ -124,11 +137,11 @@ fun FavScreen(dataRepository: UserStorage) {
                     Card(
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.padding(10.dp),
-                        elevation = 8.dp // Add shadow effect
+                        elevation = 8.dp
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(16.dp) // Padding around elements inside card
+                            modifier = Modifier.padding(16.dp)
                         ) {
                             val imageUrl = teamData["logoUrl"]!!
                             val imagePainter = rememberImagePainter(data = imageUrl)
@@ -143,12 +156,24 @@ fun FavScreen(dataRepository: UserStorage) {
                             Column {
                                 Text(
                                     text = teamData["teamName"]!!,
-                                    style = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.secondary) // Increased size, added color
+                                    style = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.secondary)
                                 )
                                 Text(
                                     text = "Overall Record: ${teamData["record"]}",
                                     style = MaterialTheme.typography.body1,
                                 )
+                                teamData["leagueWinPercent"]?.let {
+                                    Text(
+                                        text = "League Win Percent: $it%",
+                                        style = MaterialTheme.typography.body1,
+                                    )
+                                }
+                                teamData["divisionWinPercent"]?.let {
+                                    Text(
+                                        text = "Division Win Percent: $it%",
+                                        style = MaterialTheme.typography.body1,
+                                    )
+                                }
                                 Text(
                                     text = "Next Event: ${teamData["nextEventDate"]}, ${teamData["nextEventName"]}",
                                     style = MaterialTheme.typography.body1
@@ -162,10 +187,10 @@ fun FavScreen(dataRepository: UserStorage) {
                                                 Intent(Intent.ACTION_VIEW, Uri.parse(rosterLink))
                                             )
                                         },
-                                        style = MaterialTheme.typography.h5.copy(color = Color.Black) // Increased size, added color
+                                        style = MaterialTheme.typography.h5.copy(color = Color.Black)
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(8.dp)) // Add space at the end of each card
+                                Spacer(modifier = Modifier.height(8.dp))
                             }
                         }
                     }
