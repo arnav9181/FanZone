@@ -107,18 +107,22 @@ fun FavScreen(dataRepository: UserStorage) {
             val formattedDateStr = outputFormat.format(date)
             val competitions = nextEvent["competitions"].asJsonArray
             val competitions1 = competitions[0].asJsonObject
-            val tickets = competitions1["tickets"].asJsonArray
-            val ticketPrices = tickets[0].asJsonObject
-            val availTickets = ticketPrices["numberAvailable"].asString
-            val finalPrices = ticketPrices["summary"].asString
-            val ticketsRemaining = ticketPrices["numberAvailable"].asString
-            val ticketsLink0 = ticketPrices["links"].asJsonArray
-            val ticketsLink1 = ticketsLink0[0].asJsonObject
-            val ticketsLink2 = ticketsLink1["href"].asString
-            teamData["availTickets"] = availTickets
-            teamData["ticketsLink"] = ticketsLink2
-            teamData["ticketPrices"] = finalPrices
-            teamData["ticketsRemaining"] = ticketsRemaining
+            val ifAvail = competitions1["ticketsAvailable"].asString
+            if (ifAvail.equals("true")) {
+                val tickets = competitions1["tickets"].asJsonArray
+                val ticketPrices = tickets[0].asJsonObject
+                val availTickets = ticketPrices["numberAvailable"].asString
+                val finalPrices = ticketPrices["summary"].asString
+                val ticketsRemaining = ticketPrices["numberAvailable"].asString
+                val ticketsLink0 = ticketPrices["links"].asJsonArray
+                val ticketsLink1 = ticketsLink0[0].asJsonObject
+                val ticketsLink2 = ticketsLink1["href"].asString
+                teamData["availTickets"] = availTickets
+                teamData["ticketsLink"] = ticketsLink2
+                teamData["ticketPrices"] = finalPrices
+                teamData["ticketsRemaining"] = ticketsRemaining
+            }
+            teamData["ifAvail"] = ifAvail
             teamData["nextEventDate"] = formattedDateStr
             teamData["nextEventName"] = nextEvent["shortName"].asString
         }
@@ -192,26 +196,37 @@ fun FavScreen(dataRepository: UserStorage) {
                                     text = "Next Event: ${teamData["nextEventDate"]}, ${teamData["nextEventName"]}",
                                     style = MaterialTheme.typography.body1
                                 )
-                                Text(
-                                    text = "Ticket Prices: ${teamData["ticketPrices"]}",
-                                    style = MaterialTheme.typography.body1
-                                )
-                                Text(
-                                    text = "Tickets Available: ${teamData["availTickets"]}",
-                                    style = MaterialTheme.typography.body1
-                                )
-                                val linkers = teamData["ticketsLink"]
-                                if (linkers != null) {
+                                if(teamData["ifAvail"].equals("true"))
+                                {
                                     Text(
-                                        text = "Buy Tickets Here",
-                                        modifier = Modifier.clickable {
-                                            context.startActivity(
-                                                Intent(Intent.ACTION_VIEW, Uri.parse(linkers))
-                                            )
-                                        },
-                                        style = MaterialTheme.typography.h5.copy(color = Color.Black)
+                                        text = "Ticket Prices: ${teamData["ticketPrices"]}",
+                                        style = MaterialTheme.typography.body1
                                     )
+                                    Text(
+                                        text = "Tickets Available: ${teamData["availTickets"]}",
+                                        style = MaterialTheme.typography.body1
+                                    )
+                                    val linkers = teamData["ticketsLink"]
+                                    if (linkers != null) {
+                                        Text(
+                                            text = "Buy Tickets Here",
+                                            modifier = Modifier.clickable {
+                                                context.startActivity(
+                                                    Intent(Intent.ACTION_VIEW, Uri.parse(linkers))
+                                                )
+                                            },
+                                            style = MaterialTheme.typography.h5.copy(color = Color.Black)
+                                        )
+                                    }
                                 }
+                                else
+                                {
+                                    Text(
+                                        text = "No Tickets Available!",
+                                        style = MaterialTheme.typography.body1
+                                    ) 
+                                }
+
                                 val rosterLink = teamData["rosterLink"]
                                 if (rosterLink != null) {
                                     Text(
