@@ -1,6 +1,9 @@
 package com.example.fanzone.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,12 +16,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +35,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.fanzone.R
+import com.example.fanzone.TopBar
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -49,6 +56,7 @@ fun LiveScreen() {
     }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        TopBar(Title = "Live Games")
         if (isLoading) {
             Text(text = "Loading...")
         } else {
@@ -68,6 +76,7 @@ fun LiveScreen() {
 }
 @Composable
 fun DisplayEvents(events: JsonArray) {
+    val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -87,7 +96,7 @@ fun DisplayEvents(events: JsonArray) {
 
             var status=event.asJsonObject["competitions"].asJsonArray[0].asJsonObject["status"].asJsonObject["type"].asJsonObject["name"].asString
 
-
+            var gamecastLink=event.asJsonObject["links"].asJsonArray[0].asJsonObject["href"].asString
             val statusString=event.asJsonObject["competitions"].asJsonArray[0].asJsonObject["status"].asJsonObject["type"].asJsonObject["shortDetail"].asString
             var score=team1Score+" - "+team2Score
 
@@ -98,6 +107,7 @@ fun DisplayEvents(events: JsonArray) {
 
             println(team1Logo)
             println(team2)
+
 
             Card(
                 modifier = Modifier
@@ -118,8 +128,14 @@ fun DisplayEvents(events: JsonArray) {
                     )
                     Text(
                         text = eventString+"\n"+score+"\n"+statusString,
-                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                        textAlign = TextAlign.Center
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.secondary),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.clickable {
+                            context.startActivity(
+                                Intent(Intent.ACTION_VIEW, Uri.parse(gamecastLink))
+                            )
+
+                        }
                     )
 
 

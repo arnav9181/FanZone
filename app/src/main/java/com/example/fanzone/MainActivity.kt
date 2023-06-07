@@ -16,6 +16,8 @@
 package com.example.fanzone
 
 import UserStorage
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +27,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Card
@@ -33,6 +36,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
@@ -40,10 +44,18 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -53,6 +65,7 @@ import com.example.fanzone.ui.FavScreen
 import com.example.fanzone.ui.LiveScreen
 import com.example.fanzone.ui.OrderViewModel
 import com.example.fanzone.ui.SearchScreen
+import kotlinx.coroutines.launch
 
 
 /**
@@ -138,19 +151,6 @@ fun TopBar(navController: NavHostController) {
 }
 
 
-//@Composable
-//fun FavoriteScreen(dataRepository: UserStorage) {
-//
-//    val stringList = remember { dataRepository.getStringList() }
-//    // Display the list of strings
-//    Column {
-//        Text(text = "Favorite Teams", modifier = Modifier.padding(16.dp))
-//        for (string in stringList) {
-//            Text(text = string)
-//        }
-//}
-//}
-
 
 
 
@@ -176,3 +176,34 @@ fun BottomBar(navController: NavHostController) {
         )
     }
 }
+
+
+@Composable
+fun TopBar(Title: String) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        elevation = 4.dp,
+        backgroundColor = MaterialTheme.colors.primary, // Set your desired background color
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = Title,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White // Set your desired text color
+                )
+            )
+        }
+    }
+}
+
+

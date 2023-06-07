@@ -33,6 +33,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import com.example.fanzone.TopBar
 import com.example.fanzone.data.DataSource.teamAbbreviations
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -143,13 +144,15 @@ fun FavScreen(dataRepository: UserStorage) {
             viewModel.makeApiCall(baseUrl + mappedStrings[currentIndex.value])
         }
     }
-
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    TopBar(Title = "Favorite Teams")
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         if (favoriteTeamData.isEmpty()) {
             item {
                 Text(text = "No Favorite Teams Found", style = MaterialTheme.typography.h5)
             }
         } else {
+
             items(mappedStrings) { team: String ->
                 favoriteTeamData[team]?.let { teamData ->
                     Card(
@@ -196,8 +199,7 @@ fun FavScreen(dataRepository: UserStorage) {
                                     text = "Next Event: ${teamData["nextEventDate"]}, ${teamData["nextEventName"]}",
                                     style = MaterialTheme.typography.body1
                                 )
-                                if(teamData["ifAvail"].equals("true"))
-                                {
+                                if (teamData["ifAvail"].equals("true")) {
                                     Text(
                                         text = "Ticket Prices: ${teamData["ticketPrices"]}",
                                         style = MaterialTheme.typography.body1
@@ -218,13 +220,11 @@ fun FavScreen(dataRepository: UserStorage) {
                                             style = MaterialTheme.typography.h5.copy(color = Color.Black)
                                         )
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     Text(
                                         text = "No Tickets Available!",
                                         style = MaterialTheme.typography.body1
-                                    ) 
+                                    )
                                 }
 
                                 val rosterLink = teamData["rosterLink"]
@@ -246,6 +246,7 @@ fun FavScreen(dataRepository: UserStorage) {
                 }
             }
         }
+    }
     }
 }
 
