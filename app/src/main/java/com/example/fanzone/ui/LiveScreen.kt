@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.fanzone.R
 import com.example.fanzone.TopBar
 import com.google.gson.Gson
 import com.google.gson.JsonArray
