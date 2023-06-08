@@ -69,7 +69,6 @@ fun SearchScreen(dataRepository: UserStorage,navController: NavHostController = 
                 Text("Clear Favorites")
             }
         }
-        // Replace with your own data source
         val items = DataSource.MLB_teams
 
         val filteredItems = remember(items, searchText) {
@@ -87,24 +86,17 @@ fun SearchScreen(dataRepository: UserStorage,navController: NavHostController = 
                         isStarred = remember { mutableStateOf(stringList.contains(item)) },
                         onStarClick = { isStarred ->
                             isStarred.value = !isStarred.value
-
-                            // Modify the list of strings
                             val modifiedList = stringList.toMutableList()
                             if (isStarred.value) {
                                 modifiedList.add(item)
                             } else {
-                                modifiedList.remove(item) // Remove the item from the list
+                                modifiedList.remove(item)
                             }
-
-                            // Save the modified list of strings
                             dataRepository.saveStringList(modifiedList)
-
-                            // Update the state with the updated list
                             stringList = dataRepository.getStringList().toMutableList()
                         }
                     )
                 }
-
         }
     }
 }

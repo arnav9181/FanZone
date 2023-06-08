@@ -72,14 +72,7 @@ import kotlinx.coroutines.launch
  * Activity for cupcake order flow.
  */
 
-private const val STRING_LIST_KEY = "string_list_key"
 class MainActivity : ComponentActivity() {
-
-
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +88,7 @@ fun App(viewModel: OrderViewModel = viewModel()) {
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
-        //topBar = { TopBar(navController) },  // New top bar
+
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Surface(color = MaterialTheme.colors.background, modifier = Modifier.padding(paddingValues)) {
@@ -113,46 +106,6 @@ fun App(viewModel: OrderViewModel = viewModel()) {
         }
     }
 }
-
-@Composable
-fun TopBar(navController: NavHostController) {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            IconButton(onClick = { /* Do something when the button is clicked */ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Icon 1"
-                )
-            }
-
-            IconButton(onClick = { /* Do something when the button is clicked */ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Icon 2"
-                )
-            }
-
-            IconButton(onClick = { /* Do something when the button is clicked */ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Icon 3"
-                )
-            }
-        }
-    }
-}
-
-
-
-
 
 
 
@@ -186,7 +139,7 @@ fun TopBar(Title: String) {
             .fillMaxWidth()
             .padding(10.dp),
         elevation = 4.dp,
-        backgroundColor = MaterialTheme.colors.primary, // Set your desired background color
+        backgroundColor = MaterialTheme.colors.primary,
     ) {
         Row(
             modifier = Modifier
@@ -199,7 +152,7 @@ fun TopBar(Title: String) {
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White // Set your desired text color
+                    color = Color.White
                 )
             )
         }

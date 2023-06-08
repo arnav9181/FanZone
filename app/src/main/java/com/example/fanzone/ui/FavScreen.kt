@@ -252,8 +252,6 @@ fun FavScreen(dataRepository: UserStorage) {
 
 
 
-
-
 class FavScreenViewModel : androidx.lifecycle.ViewModel() {
     val isLoading = mutableStateOf(true)
     val apiResponse = mutableStateOf("")
@@ -262,13 +260,12 @@ class FavScreenViewModel : androidx.lifecycle.ViewModel() {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    // Replace with the actual API endpoint
                     URL(url).readText()
                 }
                 apiResponse.value = response
                 isLoading.value = false
             } catch (e: Exception) {
-                // Handle any exceptions that occur during the API call
+                // Handle Errors
                 apiResponse.value = ""
                 isLoading.value = false
             }

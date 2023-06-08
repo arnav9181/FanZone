@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -26,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -66,9 +69,6 @@ fun LiveScreen() {
             val games=jsonElement.asJsonObject["events"].asJsonArray //events array
 
             DisplayEvents(games)
-            //Text(text =events.asJsonArray[0].toString())
-            //Text(text = "Your Dog is a "+jsonElement.asJsonObject["message"].asJsonObject["bulldog"].asJsonArray[0].asString+" bulldog")
-            //Text(text = "Other Bulldog Breeds are "+jsonElement.asJsonObject["message"].asJsonObject["bulldog"].asJsonArray)
         }
     }
 
@@ -124,19 +124,27 @@ fun DisplayEvents(events: JsonArray) {
                         model = team2Logo,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(75.dp) // Set the desired size here
+                            .size(75.dp)
                     )
-                    Text(
-                        text = eventString+"\n"+score+"\n"+statusString,
-                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.secondary),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.clickable {
-                            context.startActivity(
-                                Intent(Intent.ACTION_VIEW, Uri.parse(gamecastLink))
-                            )
+                    Column {
+                        Text(
+                            text = eventString+"\n"+score+"\n"+statusString,
+                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "GameCast",
+                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.secondary),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.clickable {
+                                context.startActivity(
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(gamecastLink))
+                                )
 
-                        }
-                    )
+                            }
+                        )
+                    }
+
 
 
                     // Right Team
@@ -144,7 +152,7 @@ fun DisplayEvents(events: JsonArray) {
                         model = team1Logo,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(75.dp) // Set the desired size here
+                            .size(75.dp)
                     )
 
                 }
@@ -162,13 +170,13 @@ class LiveScreenViewModel : androidx.lifecycle.ViewModel() {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                     // Replace with the actual API endpoint
+                     
                     URL(url).readText()
                 }
                 apiResponse.value = response
                 isLoading.value = false
             } catch (e: Exception) {
-                // Handle any exceptions that occur during the API call
+                // Handle errors
                 apiResponse.value = ""
                 isLoading.value = false
             }
@@ -177,97 +185,3 @@ class LiveScreenViewModel : androidx.lifecycle.ViewModel() {
 }
 
 
-
-@Composable
-fun LiveScreenOld() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceEvenly,  // This will evenly distribute the cards on the screen
-        horizontalAlignment = Alignment.CenterHorizontally
-    )  {
-        Text(text = "Live Updates", style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold))
-
-        // Team 1 vs Team 2 Card
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)  // Adjust the height as per your needs
-                .padding(vertical = 16.dp)  // Increase vertical padding to increase space between cards
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Left Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 1 Logo"
-                )
-                Text(text = "Score: 2 - 1", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
-
-                // Right Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 2 Logo"
-                )
-            }
-        }
-
-        // Team 3 vs Team 4 Card
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(vertical = 16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Left Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 3 Logo"
-                )
-                Text(text = "Score: 3 - 0", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
-
-                // Right Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 4 Logo"
-                )
-            }
-        }
-
-        // Team 5 vs Team 6 Card
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(vertical = 16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Left Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 5 Logo"
-                )
-                Text(text = "Score: 1 - 1", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
-
-                // Right Team
-                Image(
-                    painter = painterResource(id = R.drawable.gsw),
-                    contentDescription = "Team 6 Logo"
-                )
-            }
-        }
-    }
-}
