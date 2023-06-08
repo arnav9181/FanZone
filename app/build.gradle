@@ -5,9 +5,11 @@ plugins {
 
 android {
     compileSdk 33
+    namespace 'com.example.fanzone'
+
 
     defaultConfig {
-        applicationId "com.example.cupcake"
+        applicationId "com.example.FanZone"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -81,6 +83,5 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
-    implementation 'org.json:json:20210307'
 
 }
