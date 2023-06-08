@@ -9,7 +9,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.FanZone"
+        applicationId "com.example.Fanzone"
         minSdk 21
         targetSdk 33
         versionCode 1
