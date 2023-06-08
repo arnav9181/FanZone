@@ -2,6 +2,8 @@ package com.example.fanzone.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,8 +48,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LiveScreen() {
     val viewModel: LiveScreenViewModel = viewModel()
@@ -74,6 +81,8 @@ fun LiveScreen() {
 
 
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DisplayEvents(events: JsonArray) {
     val context = LocalContext.current
@@ -97,14 +106,14 @@ fun DisplayEvents(events: JsonArray) {
             var status=event.asJsonObject["competitions"].asJsonArray[0].asJsonObject["status"].asJsonObject["type"].asJsonObject["name"].asString
 
             var gamecastLink=event.asJsonObject["links"].asJsonArray[0].asJsonObject["href"].asString
-            val statusString=event.asJsonObject["competitions"].asJsonArray[0].asJsonObject["status"].asJsonObject["type"].asJsonObject["shortDetail"].asString
+            var statusString=event.asJsonObject["competitions"].asJsonArray[0].asJsonObject["status"].asJsonObject["type"].asJsonObject["shortDetail"].asString
             var score=team1Score+" - "+team2Score
 
-            if(status=="STATUS_SCHEDULED"){
+            if(status=="STATUS_SCHEDULED") {
 
-                score=""
+                score = ""
+
             }
-
             println(team1Logo)
             println(team2)
 
@@ -170,7 +179,7 @@ class LiveScreenViewModel : androidx.lifecycle.ViewModel() {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                     
+
                     URL(url).readText()
                 }
                 apiResponse.value = response
@@ -183,5 +192,6 @@ class LiveScreenViewModel : androidx.lifecycle.ViewModel() {
         }
     }
 }
+
 
 
